@@ -9,30 +9,42 @@ body {
   height: 100%;
 }
 
+:root {
+  --body-color: #f2f2f2;
+  --heading-color: #fff;
+}
+
 body {
+  background-color: var(--body-color);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  font-family: sans-serif;
+  font-family: Inter, Arial, Helvetica, sans-serif;
   font-size: 1.2rem;
-  background-color: #f2f2f2;
+  justify-content: space-between;
 }
 
 header {
   background-color: #333;
-  color: #fff;
+  color: var(--heading-color);
   padding: 1rem;
   text-align: center;
 }
 
 main {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
+  justify-content: center;
 }
-
+@media screen and (max-width: 768px) {
+  header {
+    font-size: 1.5rem;
+  }
+  main {
+    padding: 1rem;
+  }
+}
 .gif-container {
   margin-bottom: 1rem;
 }
@@ -40,7 +52,6 @@ main {
 .gif-container img {
   max-width: 100%;
   height: auto;
-  
 }
 
 .button-container {
@@ -60,6 +71,17 @@ button {
 
 button:hover {
   transform: scale(1.1);
+}
+
+@media screen and (max-width: 768px) {
+  .gif-container {
+    margin-bottom: 0.5rem;
+  }
+  button {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    font-size: 1rem;
+  }
 }
 
 #no-button {
@@ -121,25 +143,5 @@ button:hover {
   }
   100% {
     transform: rotate(0);
-  }
-}
-
-
-
-@media screen and (max-width: 768px) {
-  header {
-    font-size: 1.5rem;
-  }
-  main {
-    padding: 1rem;
-  }
-  .gif-container {
-    /* margin-top: 20px; */
-    margin-bottom: 0.5rem;
-  }
-  button {
-    padding: 0.5rem 1rem;
-    margin: 0.5rem;
-    font-size: 1rem;
   }
 }
