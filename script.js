@@ -22,6 +22,9 @@ noButton.addEventListener("mouseover", () => {
 
 // Get the "Yes" button element
 const yesButton = document.getElementById("yes-button");
+yesButton.addEventListener("click", () => {
+  window.location.href = "/yes.html";
+});
 
 // Add a click event listener to create confetti
 yesButton.addEventListener("click", () => {
