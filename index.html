@@ -34,10 +34,14 @@
         <img id="gif" src="pls.gif" alt="Please" />
       </div>
       <div class="button-container">
-        <form action="/yes.html">
-          <button id="no-button" type="button">No</button>
-          <button id="yes-button" type="submit">YES</button>
-        </form>
+        <button id="no-button" class="button">No</button>
+        <input
+          id="yes-button"
+          class="button"
+          type="button"
+          value="Yes"
+          onclick="window.open('/yes.html', '_blank');"
+        />
       </div>
     </main>
     <script src="./script.js"></script>
