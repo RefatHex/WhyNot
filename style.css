@@ -4,145 +4,52 @@
   box-sizing: border-box;
 }
 
-html,
 body {
-  height: 100%;
-}
-
-:root {
-  --body-color: #f2f2f2;
-  --heading-color: #fff;
-}
-
-body {
-  background-color: var(--body-color);
   display: flex;
-  flex-direction: column;
-  font-family: Inter, Arial, Helvetica, sans-serif;
-  font-size: 1.2rem;
-  justify-content: space-between;
-}
-
-header {
-  background-color: #333;
-  color: var(--heading-color);
-  padding: 1rem;
-  text-align: center;
-}
-
-main {
+  justify-content: center;
   align-items: center;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+  background: whitesmoke;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.gif {
   height: 100%;
-  justify-content: center;
-}
-@media screen and (max-width: 768px) {
-  header {
-    font-size: 1.5rem;
-  }
-  main {
-    padding: 1rem;
-  }
-}
-.gif-container {
-  margin-bottom: 1rem;
+  width: 100%;
 }
 
-.gif-container img {
-  max-width: 100%;
-  height: auto;
+h2 {
+  text-align: center;
+  font-size: 1.5em;
+  color: #e94d58;
+  margin: 15px 0;
 }
-
-.button-container {
+.btn-group {
+  width: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
+  margin-top: 50px;
 }
-
-.button {
-  padding: 1rem 2rem;
-  margin: 0 1rem;
-  border-radius: 40px;
-  border: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
+button {
+  position: absolute;
+  width: 150px;
+  height: inherit;
+  color: white;
+  font-size: 1.2em;
+  border-radius: 30px;
+  outline: none;
   cursor: pointer;
-  transition: transform 0.2s;
+  box-shadow: 0 2px 4px gray;
+  border: 2px solid #e94d58;
+  font-size: 1.2em;
 }
-
-button:hover {
-  transform: scale(1.1);
+button:nth-child(1) {
+  margin-left: -200px;
+  background: #e94d58;
 }
-
-@media screen and (max-width: 768px) {
-  .gif-container {
-    margin-bottom: 0.5rem;
-  }
-  button {
-    padding: 0.5rem 1rem;
-    margin: 0.5rem;
-    font-size: 1rem;
-  }
-}
-
-#no-button {
-  background-color: #e74c3c;
-  color: #fff;
-}
-
-#no-button:hover {
-  animation: shake 0.5s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-  0% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(-5px, 0);
-  }
-  50% {
-    transform: translate(0, -5px);
-  }
-  75% {
-    transform: translate(5px, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-#yes-button {
-  background-color: #2ecc71;
-  color: #fff;
-}
-#confetti-canvas {
-  width: 0%;
-  height: 0%;
-}
-
-.octo-arm {
-  animation: rotateTail 2s ease-in-out infinite;
-}
-
-@keyframes rotateTail {
-  0% {
-    transform: rotate(0);
-  }
-  20% {
-    transform: rotate(20deg);
-  }
-  40% {
-    transform: rotate(0deg);
-  }
-  60% {
-    transform: rotate(-20deg);
-  }
-  80% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
+button:nth-child(2) {
+  margin-right: -200px;
+  background: white;
+  color: #e94d58;
 }
