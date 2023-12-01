@@ -7,7 +7,7 @@ const noBtn = document.querySelector(".no-btn");
 yesBtn.addEventListener("click", () => {
   question.innerHTML = "Message Me soon!";
   gif.src =
-    "https://media.giphy.com/media/UMon0fuimoAN9ueUNP/giphy.gif";
+    "https://media.giphy.com/media/2WzRsDeKvQUA6XYmiP/giphy.gif";
 });
 
 noBtn.addEventListener("mouseover", () => {
