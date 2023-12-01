@@ -53,3 +53,30 @@ button:nth-child(2) {
   background: white;
   color: #e94d58;
 }
+.github-link {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.8;
+}
+
+.github-link img {
+  width: 60px;
+  height: auto;
+}
+
+.github-link span {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  right: 35px;
+  bottom: 0;
+}
+
+.github-link:hover span {
+  display: block;
+}
+
