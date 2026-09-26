@@ -7,28 +7,82 @@
     <meta property="og:title" content="message for you" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://will-youu.netlify.app/" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💘</text></svg>" />
 
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="wrapper">
-      <h2 class="question">Will you go out with me?</h2>
-      <img
-        class="gif"
-        alt="gif"
-        src="https://media.giphy.com/media/FTGah7Mx3ss04PcasF/giphy.gif"
-      />
-      <div class="btn-group">
-        <button class="yes-btn">Yes</button>
-        <button class="no-btn">No</button>
-      </div>
-    </div>
-     <div class="github-link">
-      <a href="https://github.com/RefatHex/WhyNot/" target="_blank">
-          <img src="github.png" alt="GitHub" />
-          <span>GitHub</span>
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div class="hearts-bg" aria-hidden="true"></div>
+
+    <main class="wrapper">
+      <!-- Step 1: the big question -->
+      <section class="step active" data-step="ask">
+        <h2 class="question">Will you go out with me?</h2>
+        <img
+          class="gif"
+          alt="cute bear asking"
+          src="https://media.giphy.com/media/FTGah7Mx3ss04PcasF/giphy.gif"
+        />
+        <p class="hint" aria-live="polite"></p>
+        <div class="btn-group">
+          <button class="yes-btn">Yes</button>
+          <button class="no-btn">No</button>
+        </div>
+      </section>
+
+      <!-- Step 2: pick an activity -->
+      <section class="step" data-step="what">
+        <h2>Yaaay!! 💖 What should we do?</h2>
+        <div class="choices" data-choice="activity">
+          <button class="choice" data-value="grab coffee" data-emoji="☕">☕<span>Coffee</span></button>
+          <button class="choice" data-value="watch a movie" data-emoji="🍿">🍿<span>Movie</span></button>
+          <button class="choice" data-value="have dinner" data-emoji="🍝">🍝<span>Dinner</span></button>
+          <button class="choice" data-value="take a sunset walk" data-emoji="🌅">🌅<span>Sunset walk</span></button>
+          <button class="choice" data-value="get ice cream" data-emoji="🍦">🍦<span>Ice cream</span></button>
+          <button class="choice" data-value="play games" data-emoji="🎮">🎮<span>Games</span></button>
+        </div>
+      </section>
+
+      <!-- Step 3: pick a time -->
+      <section class="step" data-step="when">
+        <h2>Perfect! When are you free? 🗓️</h2>
+        <div class="choices" data-choice="when">
+          <button class="choice" data-value="tonight" data-emoji="🌙">🌙<span>Tonight</span></button>
+          <button class="choice" data-value="tomorrow" data-emoji="☀️">☀️<span>Tomorrow</span></button>
+          <button class="choice" data-value="this weekend" data-emoji="🎉">🎉<span>This weekend</span></button>
+        </div>
+        <label class="date-pick">
+          or pick a day:
+          <input type="date" class="date-input" />
+        </label>
+        <button class="link-btn back-btn" data-back="what">← back</button>
+      </section>
+
+      <!-- Step 4: it's a date -->
+      <section class="step" data-step="done">
+        <h2 class="done-title">It's a date! 🥰</h2>
+        <img
+          class="gif"
+          alt="happy bears"
+          src="https://media.giphy.com/media/mpu7L6b0oRy0KOuyd7/giphy.gif"
+        />
+        <p class="summary"></p>
+        <p class="signoff">Message me soon!</p>
+        <div class="actions">
+          <button class="action-btn copy-btn">📋 Copy our plan</button>
+          <button class="action-btn ghost restart-btn">↺ Start over</button>
+        </div>
+        <p class="toast" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <div class="github-link">
+      <a href="https://github.com/RefatHex/WhyNot/" target="_blank" rel="noopener">
+        <img src="github.png" alt="GitHub" />
+        <span>GitHub</span>
       </a>
-  </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
