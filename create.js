@@ -90,7 +90,7 @@ function sync() {
   result.hidden = true;
   render();
   // Keep the draft in this tab's address bar (after #, never sent anywhere) so a reload keeps it.
-  history.replaceState(null, "", "#p=" + WY.encode(currentConfig(false)));
+  history.replaceState(null, "", "#" + WY.encode(currentConfig(false)));
 }
 
 function render() {
@@ -134,7 +134,7 @@ function currentConfig(strict = true) {
 }
 
 function buildLink(cfg) {
-  return new URL("./#p=" + WY.encode(cfg), location.href).href;
+  return new URL("./#" + WY.encode(cfg), location.href).href;
 }
 
 /* ---------- Preview / get link ---------- */

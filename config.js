@@ -1,5 +1,5 @@
 // Shared by the page the crush sees (index.html) and the creator (create.html).
-// A personalized page's settings live in the link after "#p=", which browsers
+// A personalized page's settings live in the link after "#", which browsers
 // never send to the server. They are base64-scrambled, not encrypted.
 // Attached to window so it's shared even when a bundler (Netlify runs Parcel)
 // wraps each script in its own scope.
@@ -169,31 +169,65 @@ window.WY = (() => {
     return sanitize({ v: 1 });
   }
 
-  // Compact form: leave out anything that matches the occasion's defaults.
-  function toPayload(cfg) {
-    const occ = OCCASIONS[cfg.o];
-    const p = { v: 1 };
-    if (cfg.o !== "date") p.o = cfg.o;
-    if (cfg.to) p.t = cfg.to;
-    if (cfg.from) p.f = cfg.from;
-    if (cfg.q && cfg.q !== occ.question) p.q = cfg.q;
-    if (cfg.th !== occ.theme) p.th = cfg.th;
-    if (cfg.r) p.r = cfg.r;
-    return p;
+  // Link format: "#" + base64url of "2" + three one-letter codes (occasion, theme,
+  // reply app; "." = default) followed by name/name/question/contact separated by
+  // \x1f (a control character sanitize() strips, so it can't appear in a field).
+  const CODES = {
+    o: { date: "d", valentine: "v", girlfriend: "g", boyfriend: "b", prom: "p", proposal: "m", bridesmaid: "s" },
+    th: { pink: "p", red: "r", purple: "l", gold: "g", night: "n" },
+    r: { whatsapp: "w", instagram: "i", telegram: "t", messenger: "f", sms: "s", email: "e" },
+  };
+  const SEP = "\x1f";
+  const fromCode = (map, c) => Object.keys(map).find((k) => map[k] === c);
+
+  function toBase64Url(text) {
+    let bin = "";
+    new TextEncoder().encode(text).forEach((b) => (bin += String.fromCharCode(b)));
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+
+  function fromBase64Url(str) {
+    const bin = atob(str.replace(/-/g, "+").replace(/_/g, "/"));
+    return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
   }
 
   function encode(cfg) {
-    const bytes = new TextEncoder().encode(JSON.stringify(toPayload(cfg)));
-    let bin = "";
-    bytes.forEach((b) => (bin += String.fromCharCode(b)));
-    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const occ = OCCASIONS[cfg.o];
+    const header =
+      "2" +
+      CODES.o[cfg.o] +
+      (cfg.th !== occ.theme ? CODES.th[cfg.th] : ".") +
+      (cfg.r ? CODES.r[cfg.r.k] : ".");
+    const fields = [cfg.to, cfg.from, cfg.q !== occ.question ? cfg.q : "", cfg.r ? cfg.r.id : ""].map((f) =>
+      (f || "").replace(/[\u0000-\u001f\u007f]/g, "")
+    );
+    while (fields.length && !fields[fields.length - 1]) fields.pop();
+    return toBase64Url([header, ...fields].join(SEP));
   }
 
   function decode(str) {
     try {
-      const bin = atob(str.replace(/-/g, "+").replace(/_/g, "/"));
-      const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
-      return sanitize(JSON.parse(new TextDecoder().decode(bytes)));
+      const [header, t, f, q, id] = fromBase64Url(str).split(SEP);
+      if (header.length !== 4 || header[0] !== "2") return null;
+      const rk = fromCode(CODES.r, header[3]);
+      return sanitize({
+        v: 1,
+        o: fromCode(CODES.o, header[1]),
+        th: fromCode(CODES.th, header[2]),
+        t,
+        f,
+        q,
+        r: rk ? { k: rk, id } : null,
+      });
+    } catch {
+      return null;
+    }
+  }
+
+  // Links made before the short format: "#p=" + base64url JSON.
+  function decodeLegacy(str) {
+    try {
+      return sanitize(JSON.parse(fromBase64Url(str)));
     } catch {
       return null;
     }
@@ -201,8 +235,8 @@ window.WY = (() => {
 
   // The personalized config for this page, or null for the plain demo page.
   function fromLocation(loc = location) {
-    const m = loc.hash.match(/^#p=([A-Za-z0-9_-]+)$/);
-    if (m) return decode(m[1]);
+    const m = loc.hash.match(/^#(p=)?([A-Za-z0-9_-]+)$/);
+    if (m) return m[1] ? decodeLegacy(m[2]) : decode(m[2]);
     // Older links: ?to=Name&from=Name
     const params = new URLSearchParams(loc.search);
     if (params.has("to") || params.has("from")) {
