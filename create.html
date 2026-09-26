@@ -18,10 +18,10 @@
       <p class="sub">Fill this in, send them the link, and watch them try to click “No”.</p>
 
       <form class="maker" novalidate>
-        <fieldset>
-          <legend>What are you asking?</legend>
-          <div class="occasions" role="radiogroup"></div>
-        </fieldset>
+        <div class="field">
+          <span class="field-label" id="occasion-label">What are you asking?</span>
+          <div class="dd" data-dd="occasion" aria-labelledby="occasion-label"></div>
+        </div>
 
         <div class="row">
           <label>
@@ -40,20 +40,19 @@
         </label>
         <p class="live">They'll see: <strong class="live-q"></strong></p>
 
-        <fieldset>
-          <legend>Colors</legend>
-          <div class="themes" role="radiogroup"></div>
-        </fieldset>
-
-        <fieldset>
-          <legend>How should they reply? <span class="opt">optional</span></legend>
-          <select name="rk">
-            <option value="">No reply button</option>
-          </select>
-          <input name="rid" autocomplete="off" hidden />
-          <p class="field-note"></p>
-          <p class="error" aria-live="polite"></p>
-        </fieldset>
+        <div class="row">
+          <div class="field">
+            <span class="field-label" id="theme-label">Colors</span>
+            <div class="dd" data-dd="theme" aria-labelledby="theme-label"></div>
+          </div>
+          <div class="field">
+            <span class="field-label" id="reply-label">Reply button <span class="opt">optional</span></span>
+            <div class="dd" data-dd="reply" aria-labelledby="reply-label"></div>
+          </div>
+        </div>
+        <input name="rid" autocomplete="off" aria-label="Your contact" hidden />
+        <p class="field-note"></p>
+        <p class="error" aria-live="polite"></p>
 
         <div class="actions">
           <button type="button" class="action-btn ghost preview-btn">👀 Preview</button>
