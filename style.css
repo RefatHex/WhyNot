@@ -4,11 +4,63 @@
   box-sizing: border-box;
 }
 
-:root {
+:root,
+[data-theme="pink"] {
   --pink: #e94d58;
   --pink-soft: #ffd6dc;
   --bg1: #fff0f3;
   --bg2: #ffe3ea;
+  --bg3: #fdf2ff;
+  --card: rgba(255, 255, 255, 0.75);
+  --surface: #ffffff;
+  --surface-hover: #fff7f8;
+  --text: var(--text);
+  --text-soft: var(--text-soft);
+  --on-accent: #ffffff;
+}
+[data-theme="red"] {
+  --pink: #d62839;
+  --pink-soft: #ffc9cf;
+  --bg1: #fff0f0;
+  --bg2: #ffdcdc;
+  --bg3: #fff5f7;
+  --surface-hover: #fff5f5;
+  --text: #5c2228;
+  --text-soft: #a8323f;
+}
+[data-theme="purple"] {
+  --pink: #8e44ad;
+  --pink-soft: #e3cff0;
+  --bg1: #f7f0ff;
+  --bg2: #eadcff;
+  --bg3: #fdf2ff;
+  --surface-hover: #faf5ff;
+  --text: #4a2a5a;
+  --text-soft: #7d4a96;
+}
+[data-theme="gold"] {
+  --pink: #a8741a;
+  --pink-soft: #f0dcb4;
+  --bg1: #fffaf0;
+  --bg2: #fdf0d5;
+  --bg3: #fff6e8;
+  --surface-hover: #fffbf2;
+  --text: #4f3a17;
+  --text-soft: #8a6420;
+}
+[data-theme="night"] {
+  --pink: #ff6f91;
+  --pink-soft: #4a3d66;
+  --bg1: #15122b;
+  --bg2: #221c42;
+  --bg3: #2b1633;
+  --card: rgba(34, 28, 58, 0.8);
+  --surface: #2a2447;
+  --surface-hover: #332b55;
+  --text: #f3dce4;
+  --text-soft: #d9a7ba;
+  --on-accent: #ffffff;
+  color-scheme: dark;
 }
 
 body {
@@ -17,7 +69,7 @@ body {
   align-items: center;
   min-height: 100vh;
   padding: 16px;
-  background: linear-gradient(135deg, var(--bg1), var(--bg2), #fdf2ff);
+  background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
   background-size: 300% 300%;
   animation: bgShift 12s ease infinite;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -65,10 +117,10 @@ body {
   z-index: 1;
   width: min(420px, 100%);
   padding: 24px 22px 28px;
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--card);
   backdrop-filter: blur(6px);
   border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(233, 77, 88, 0.18);
+  box-shadow: 0 10px 40px color-mix(in srgb, var(--pink) 18%, transparent);
   text-align: center;
 }
 
@@ -89,6 +141,7 @@ body {
   max-height: 260px;
   object-fit: contain;
   border-radius: 16px;
+  color: var(--text-soft);
 }
 
 h2 {
@@ -101,7 +154,7 @@ h2 {
 .hint {
   min-height: 1.4em;
   margin-top: 10px;
-  color: #b3565e;
+  color: var(--text-soft);
   font-size: 0.95em;
 }
 
@@ -128,7 +181,7 @@ h2 {
 
 .yes-btn {
   background: var(--pink);
-  color: white;
+  color: var(--on-accent);
   transform: scale(var(--grow, 1));
   transition: transform 0.25s cubic-bezier(0.2, 1.4, 0.4, 1);
   animation: pulse 1.6s ease-in-out infinite;
@@ -139,12 +192,12 @@ h2 {
   filter: brightness(1.08);
 }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(233, 77, 88, 0.5); }
-  50% { box-shadow: 0 0 0 12px rgba(233, 77, 88, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--pink) 50%, transparent); }
+  50% { box-shadow: 0 0 0 12px transparent; }
 }
 
 .no-btn {
-  background: white;
+  background: var(--surface);
   color: var(--pink);
   white-space: nowrap;
   width: auto;
@@ -174,7 +227,7 @@ h2 {
   gap: 6px;
   padding: 16px 8px;
   font-size: 2em;
-  background: white;
+  background: var(--surface);
   border: 2px solid var(--pink-soft);
   border-radius: 18px;
   cursor: pointer;
@@ -183,13 +236,13 @@ h2 {
 }
 .choice span {
   font-size: 0.45em;
-  color: #6b3a3f;
+  color: var(--text);
 }
 .choice:hover,
 .choice:focus-visible {
   transform: translateY(-4px) rotate(-2deg);
   border-color: var(--pink);
-  background: #fff7f8;
+  background: var(--surface-hover);
   outline: none;
 }
 .choice.picked {
@@ -197,13 +250,13 @@ h2 {
   border-color: var(--pink);
 }
 .choice.picked span {
-  color: white;
+  color: var(--on-accent);
 }
 
 .date-pick {
   display: block;
   margin-top: 18px;
-  color: #6b3a3f;
+  color: var(--text);
   font-size: 0.95em;
 }
 .date-input {
@@ -212,14 +265,15 @@ h2 {
   border-radius: 10px;
   border: 2px solid var(--pink-soft);
   font-family: inherit;
-  color: #6b3a3f;
+  color: var(--text);
+  background: var(--surface);
 }
 
 .link-btn {
   margin-top: 16px;
   background: none;
   border: none;
-  color: #b3565e;
+  color: var(--text-soft);
   cursor: pointer;
   font-family: inherit;
   font-size: 0.9em;
@@ -232,7 +286,7 @@ h2 {
 .summary {
   margin-top: 14px;
   font-size: 1.15em;
-  color: #6b3a3f;
+  color: var(--text);
   line-height: 1.5;
 }
 .summary strong {
@@ -255,9 +309,10 @@ h2 {
   border-radius: 24px;
   border: 2px solid var(--pink);
   background: var(--pink);
-  color: white;
+  color: var(--on-accent);
   font-family: inherit;
   font-size: 0.95em;
+  text-decoration: none;
   cursor: pointer;
   transition: transform 0.15s ease;
 }
@@ -265,14 +320,14 @@ h2 {
   transform: scale(1.05);
 }
 .action-btn.ghost {
-  background: white;
+  background: var(--surface);
   color: var(--pink);
 }
 .toast {
   min-height: 1.3em;
   margin-top: 10px;
   font-size: 0.9em;
-  color: #b3565e;
+  color: var(--text-soft);
 }
 
 /* Click hearts */
@@ -289,6 +344,44 @@ h2 {
     transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2);
     opacity: 0;
   }
+}
+
+/* Demo-page and preview-only buttons */
+.make-own,
+.edit-btn {
+  position: fixed;
+  top: 14px;
+  z-index: 5;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  text-decoration: none;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--pink) 25%, transparent);
+  transition: transform 0.15s ease;
+}
+.make-own {
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--pink);
+  color: var(--on-accent);
+}
+.make-own:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+.edit-btn {
+  left: 14px;
+  background: var(--surface);
+  color: var(--pink);
+  border: 2px solid var(--pink);
+}
+.edit-btn:hover {
+  transform: scale(1.05);
+}
+[hidden] {
+  display: none !important;
+}
+body:has(.make-own:not([hidden]), .edit-btn:not([hidden])) {
+  padding-top: 64px;
 }
 
 .github-link {

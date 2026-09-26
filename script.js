@@ -10,15 +10,48 @@ const heartsBg = document.querySelector(".hearts-bg");
 const canvas = document.getElementById("fx");
 const ctx = canvas.getContext("2d");
 
+const doneTitle = document.querySelector(".done-title");
+const tellBtn = document.querySelector(".tell-btn");
+const copyBtn = document.querySelector(".copy-btn");
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const HEARTS = ["💖", "💕", "💗", "💘", "❤️", "💞"];
 
-// Personalize with ?to=Name&from=Name
-const params = new URLSearchParams(location.search);
-const toName = (params.get("to") || "").trim().slice(0, 40);
-const fromName = (params.get("from") || "").trim().slice(0, 40);
-if (toName) question.textContent = `${toName}, will you go out with me?`;
-if (fromName) signoff.textContent = `Message me soon! — ${fromName}`;
+/* ---------- Personalization ---------- */
+// A personalized link shows only the page made for them: no "make your own", no GitHub.
+const personal = WY.fromLocation();
+const cfg = personal || WY.defaults();
+const occasion = WY.OCCASIONS[cfg.o];
+
+document.body.dataset.theme = cfg.th;
+question.textContent = WY.questionFor(cfg);
+doneTitle.textContent = occasion.doneTitle;
+signoff.textContent = cfg.from ? `${occasion.signoff} — ${cfg.from}` : occasion.signoff;
+
+if (!personal) {
+  document.querySelector(".make-own").hidden = false;
+  document.querySelector(".github-link").hidden = false;
+} else {
+  // The sender's own preview (remembered in their tab only) gets a way back to the editor.
+  let previewing = false;
+  try {
+    previewing = sessionStorage.getItem(WY.PREVIEW_KEY) === location.hash;
+  } catch {}
+  if (previewing) {
+    const edit = document.querySelector(".edit-btn");
+    edit.href = "create.html" + location.hash;
+    edit.hidden = false;
+  }
+}
+
+if (cfg.r) {
+  tellBtn.textContent = `Tell ${cfg.from || "them"} 💌`;
+  tellBtn.hidden = false;
+  copyBtn.classList.add("ghost");
+  copyBtn.textContent = "📋 Copy";
+} else if (!occasion.plan) {
+  copyBtn.textContent = "📋 Copy my answer";
+}
 
 const plan = { activity: "", emoji: "", when: "" };
 
@@ -140,7 +173,8 @@ window.addEventListener("resize", () => {
 function sayYes() {
   const r = yesBtn.getBoundingClientRect();
   burst(r.left + r.width / 2, r.top + r.height / 2, 140);
-  showStep("what");
+  if (occasion.plan) showStep("what");
+  else finish();
 }
 yesBtn.addEventListener("click", sayYes);
 
@@ -179,15 +213,36 @@ document.querySelectorAll("[data-back]").forEach((b) =>
   b.addEventListener("click", () => showStep(b.dataset.back))
 );
 
+function answerText() {
+  const hi = cfg.to ? `It's ${cfg.to}! ` : "";
+  const details = occasion.plan ? ` Let's ${plan.activity} ${plan.when} ${plan.emoji}` : "";
+  return `${hi}${occasion.yesText}${details}`;
+}
+
 function finish() {
   summary.innerHTML = "";
-  summary.append(
-    "We're going to ",
-    Object.assign(document.createElement("strong"), { textContent: plan.activity }),
-    " ",
-    Object.assign(document.createElement("strong"), { textContent: plan.when }),
-    ` ${plan.emoji}`
-  );
+  if (occasion.plan) {
+    summary.append(
+      "We're going to ",
+      Object.assign(document.createElement("strong"), { textContent: plan.activity }),
+      " ",
+      Object.assign(document.createElement("strong"), { textContent: plan.when }),
+      ` ${plan.emoji}`
+    );
+  } else {
+    summary.textContent = occasion.doneText;
+  }
+
+  if (cfg.r) {
+    const link = WY.replyLink(cfg.r, answerText());
+    tellBtn.href = link.href;
+    tellBtn.dataset.prefilled = link.prefilled;
+    if (link.href.startsWith("https:")) {
+      tellBtn.target = "_blank";
+      tellBtn.rel = "noopener noreferrer";
+    }
+  }
+
   toast.textContent = "";
   showStep("done");
   celebrate();
@@ -200,18 +255,36 @@ document.querySelector(".restart-btn").addEventListener("click", () => {
   showStep("ask");
 });
 
-document.querySelector(".copy-btn").addEventListener("click", async () => {
-  const who = toName ? `${toName} said YES! ` : "I said YES! ";
-  const text = `${who}💖 We're going to ${plan.activity} ${plan.when} ${plan.emoji}`;
+function copyText(text) {
+  if (navigator.clipboard) return navigator.clipboard.writeText(text);
+  const ta = Object.assign(document.createElement("textarea"), { value: text });
+  document.body.appendChild(ta);
+  ta.select();
+  const ok = document.execCommand("copy");
+  ta.remove();
+  return ok ? Promise.resolve() : Promise.reject();
+}
+
+// Apps that can't pre-fill a message (Instagram, Telegram, Messenger): copy it first,
+// then let the link open the chat.
+tellBtn.addEventListener("click", () => {
+  if (tellBtn.dataset.prefilled === "true") return;
+  copyText(answerText())
+    .then(() => (toast.textContent = "Message copied — just paste it in the chat 💌"))
+    .catch(() => (toast.textContent = answerText()));
+});
+
+copyBtn.addEventListener("click", async () => {
+  const text = answerText();
   try {
-    if (navigator.share && matchMedia("(pointer: coarse)").matches) {
+    if (!cfg.r && navigator.share && matchMedia("(pointer: coarse)").matches) {
       await navigator.share({ text });
       return;
     }
-    await navigator.clipboard.writeText(text);
-    toast.textContent = "Copied! Now send it 💌";
-  } catch {
-    toast.textContent = text;
+    await copyText(text);
+    toast.textContent = cfg.r ? "Copied! 💌" : "Copied! Now send it 💌";
+  } catch (err) {
+    if (err?.name !== "AbortError") toast.textContent = text;
   }
 });
 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Make your own 💌</title>
+    <meta property="og:title" content="Make your own 💌" />
+    <meta property="og:description" content="Ask your crush out with a page where the No button runs away." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>" />
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="create.css" />
+  </head>
+  <body>
+    <main class="wrapper creator">
+      <h1>💌 Make your own</h1>
+      <p class="sub">Fill this in, send them the link, and watch them try to click “No”.</p>
+
+      <form class="maker" novalidate>
+        <fieldset>
+          <legend>What are you asking?</legend>
+          <div class="occasions" role="radiogroup"></div>
+        </fieldset>
+
+        <div class="row">
+          <label>
+            Their name <span class="opt">optional</span>
+            <input name="to" maxlength="40" placeholder="Alex" autocomplete="off" />
+          </label>
+          <label>
+            Your name <span class="opt">optional</span>
+            <input name="from" maxlength="40" placeholder="Sam" autocomplete="off" />
+          </label>
+        </div>
+
+        <label>
+          The question
+          <input name="q" maxlength="100" autocomplete="off" />
+        </label>
+        <p class="live">They'll see: <strong class="live-q"></strong></p>
+
+        <fieldset>
+          <legend>Colors</legend>
+          <div class="themes" role="radiogroup"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>How should they reply? <span class="opt">optional</span></legend>
+          <select name="rk">
+            <option value="">No reply button</option>
+          </select>
+          <input name="rid" autocomplete="off" hidden />
+          <p class="field-note"></p>
+          <p class="error" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="actions">
+          <button type="button" class="action-btn ghost preview-btn">👀 Preview</button>
+          <button type="submit" class="action-btn">✨ Get my link</button>
+        </div>
+      </form>
+
+      <section class="result" hidden>
+        <label>
+          Your link
+          <input class="link-out" readonly />
+        </label>
+        <div class="actions">
+          <button type="button" class="action-btn copy-link">📋 Copy link</button>
+          <button type="button" class="action-btn ghost share-link" hidden>📤 Share</button>
+        </div>
+        <p class="toast" aria-live="polite"></p>
+        <p class="warn">Anyone with this link can open the page and see what's in it, so only send it to them.</p>
+      </section>
+
+      <details class="privacy">
+        <summary>🔒 How your privacy is protected</summary>
+        <ul>
+          <li>Nothing you type is saved anywhere. The link itself carries everything.</li>
+          <li>It all sits after the <code>#</code> in the link, a part browsers never send to the website's server.</li>
+          <li>It's scrambled so names aren't readable in the link, but it isn't encrypted: someone with the link could decode it.</li>
+          <li>The page doesn't track anything. Their answer never leaves their phone unless they send it to you.</li>
+        </ul>
+      </details>
+
+      <p class="support">
+        Made someone smile?
+        <a class="support-link" target="_blank" rel="noopener noreferrer">☕ Support this project</a>
+      </p>
+      <a class="back-home" href="./">← See the demo</a>
+    </main>
+    <script src="config.js"></script>
+    <script src="create.js"></script>
+  </body>
+</html>

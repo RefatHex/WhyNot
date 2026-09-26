@@ -15,6 +15,11 @@
     <canvas id="fx" aria-hidden="true"></canvas>
     <div class="hearts-bg" aria-hidden="true"></div>
 
+    <!-- Only on the plain demo page -->
+    <a class="make-own" href="create.html" hidden>💌 Make one for your crush</a>
+    <!-- Only when the sender previews their own page -->
+    <a class="edit-btn" hidden>← Edit</a>
+
     <main class="wrapper">
       <!-- Step 1: the big question -->
       <section class="step active" data-step="ask">
@@ -70,6 +75,7 @@
         <p class="summary"></p>
         <p class="signoff">Message me soon!</p>
         <div class="actions">
+          <a class="action-btn tell-btn" hidden></a>
           <button class="action-btn copy-btn">📋 Copy our plan</button>
           <button class="action-btn ghost restart-btn">↺ Start over</button>
         </div>
@@ -77,12 +83,13 @@
       </section>
     </main>
 
-    <div class="github-link">
+    <div class="github-link" hidden>
       <a href="https://github.com/RefatHex/WhyNot/" target="_blank" rel="noopener">
         <img src="github.png" alt="GitHub" />
         <span>GitHub</span>
       </a>
     </div>
+    <script src="config.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
