@@ -1,7 +1,9 @@
 // Shared by the page the crush sees (index.html) and the creator (create.html).
 // A personalized page's settings live in the link after "#p=", which browsers
 // never send to the server. They are base64-scrambled, not encrypted.
-const WY = (() => {
+// Attached to window so it's shared even when a bundler (Netlify runs Parcel)
+// wraps each script in its own scope.
+window.WY = (() => {
   const OCCASIONS = {
     date: {
       label: "First date",
