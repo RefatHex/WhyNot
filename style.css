@@ -38,6 +38,26 @@
   --text: #4a2a5a;
   --text-soft: #7d4a96;
 }
+[data-theme="sky"] {
+  --pink: #2f7fd1;
+  --pink-soft: #cfe3f7;
+  --bg1: #f0f7ff;
+  --bg2: #dcecff;
+  --bg3: #f3f0ff;
+  --surface-hover: #f5faff;
+  --text: #1f3a5a;
+  --text-soft: #3d6a99;
+}
+[data-theme="cocoa"] {
+  --pink: #7b4a2e;
+  --pink-soft: #ead7c8;
+  --bg1: #fdf6f0;
+  --bg2: #f5e6d8;
+  --bg3: #fff4ec;
+  --surface-hover: #fffaf6;
+  --text: #4a2c1b;
+  --text-soft: #8a5a3c;
+}
 [data-theme="gold"] {
   --pink: #a8741a;
   --pink-soft: #f0dcb4;

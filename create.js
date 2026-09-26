@@ -13,8 +13,10 @@ const shareBtn = document.querySelector(".share-link");
 
 document.querySelector(".support-link").href = WY.SUPPORT_URL;
 
-// Start from the link being edited (coming back from a preview), else defaults.
-const state = WY.fromLocation() || WY.defaults();
+// Start from the link being edited (coming back from a preview). Otherwise start
+// from today's Valentine's Week day if it is one, else the defaults.
+const today = WY.occasionForToday();
+const state = WY.fromLocation() || WY.sanitize({ v: 1, o: today || "date" });
 
 /* ---------- Build the pickers ---------- */
 function pill(label, value, group, extra = "") {
@@ -29,8 +31,21 @@ function pill(label, value, group, extra = "") {
   return b;
 }
 
-for (const [key, o] of Object.entries(WY.OCCASIONS)) {
-  pill(`${o.emoji} ${o.label}`, key, occasionsEl);
+for (const [groupKey, groupLabel] of Object.entries(WY.GROUPS)) {
+  const group = document.createElement("div");
+  group.className = "occ-group";
+  const heading = document.createElement("p");
+  heading.className = "occ-heading";
+  heading.textContent = groupLabel;
+  const pills = document.createElement("div");
+  pills.className = "pills";
+  group.append(heading, pills);
+  occasionsEl.appendChild(group);
+  for (const [key, o] of Object.entries(WY.OCCASIONS)) {
+    if (o.group !== groupKey) continue;
+    const b = pill(`${o.emoji} ${o.label}`, key, pills);
+    if (key === today) b.insertAdjacentHTML("beforeend", ' <span class="today">today</span>');
+  }
 }
 for (const [key, t] of Object.entries(WY.THEMES)) {
   pill(t.label, key, themesEl, `<span class="swatch" style="background:${t.swatch}"></span>`);

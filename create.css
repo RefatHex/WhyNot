@@ -83,7 +83,23 @@
 }
 
 /* Occasion + theme pickers */
-.occasions,
+.occ-group + .occ-group {
+  margin-top: 10px;
+}
+.occ-heading {
+  font-size: 0.8em;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+}
+.today {
+  font-size: 0.75em;
+  padding: 1px 6px;
+  margin-left: 2px;
+  border-radius: 8px;
+  background: var(--pink-soft);
+  color: var(--text);
+}
+.pills,
 .themes {
   display: flex;
   flex-wrap: wrap;
@@ -188,7 +204,9 @@
 }
 
 .support {
-  margin-top: 18px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--pink-soft);
   text-align: center;
   font-size: 0.9em;
   color: var(--text-soft);

@@ -10,7 +10,7 @@ Have a crush and want to ask them out? Why not send them a landing page instead 
 
 Open [/create.html](https://will-youu.netlify.app/create.html) to make a page for someone:
 
-- Pick the occasion (first date, Valentine, prom, proposal, bridesmaid…) and colors
+- Pick the occasion (first date, proposal, anniversary, every Valentine's Week day, prom, homecoming, bridesmaid, groomsman, roommate…) and colors. During 7–14 February the page pre-selects that day
 - Add their name, your name, and your own question
 - Optionally add a "Tell me 💌" reply button (WhatsApp, Instagram, Telegram, Messenger, text or email)
 
